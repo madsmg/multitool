@@ -1,0 +1,43 @@
+<UserControl x:Class="MultiTool.Views.Network.NetworkInterfacesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MultiTool.Views.Network"
+             xmlns:converters="clr-namespace:MultiTool.Views.Converters"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             DataContext="{Binding NetworkInterfaces, Source={StaticResource Locator}}"
+             mc:Ignorable="d">
+   <Grid>
+      <DockPanel>
+         <TextBlock DockPanel.Dock="Top" Text="NETWORK INTERFACES" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
+        
+         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label Content="Filter:" Margin="5,0" VerticalContentAlignment="Center"/>
+            <TextBox Name="tbFilter" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="250" />
+            <CheckBox Name="HideIpV6" Content="Hide Ip V6" IsChecked="{Binding HideIpV6Addresses}" Margin="5,0" VerticalContentAlignment="Center" />
+            <CheckBox Name="HideDown" Content="Hide Down" IsChecked="{Binding HideDown}" Margin="5,0" VerticalContentAlignment="Center"/>
+            <CheckBox Name="HideLoopBack" Content="Hide LoopBack" IsChecked="{Binding HideLoopBack}" Margin="5,0" VerticalContentAlignment="Center"/>
+         </StackPanel>
+         <DataGrid Name="interfacesGrid" ItemsSource="{Binding AdaptersView}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True" SelectionMode="Single" >
+            <DataGrid.Columns>
+               <mui:DataGridTextColumn Header="Name" Binding="{Binding NetworkInterface.Name, Mode=OneWay}">
+                  <mui:DataGridTextColumn.CellStyle>
+                     <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                        <Setter Property="ToolTip" Value="{Binding NetworkInterface.Description, Mode=OneWay}" />
+                     </Style>
+                  </mui:DataGridTextColumn.CellStyle>
+               </mui:DataGridTextColumn>
+               <mui:DataGridTextColumn Header="IP Address" Binding="{Binding IpAddresses, Mode=OneWay}"/>
+               <mui:DataGridTextColumn Header="Subnet Mask" Binding="{Binding IpSubnetMasks, Mode=OneWay}"/>
+               <mui:DataGridTextColumn Header="Default Gateway" Binding="{Binding IpDefaultGateways, Mode=OneWay}"/>
+               <mui:DataGridTextColumn Header="DNS Servers" Binding="{Binding IpDnsServers, Mode=OneWay}"/>
+               <mui:DataGridTextColumn Header="DHCP" Binding="{Binding IsDhcp, Mode=OneWay}" />
+               <mui:DataGridTextColumn Header="MAC Address" Binding="{Binding MACAddress, Mode=OneWay}"/>
+               <mui:DataGridTextColumn Header="Status"  Binding="{Binding NetworkInterface.OperationalStatus, Mode=OneWay}"/>
+               <mui:DataGridTextColumn Header="Type"  Binding="{Binding NetworkInterface.NetworkInterfaceType, Mode=OneWay}"/>
+            </DataGrid.Columns>
+         </DataGrid>
+      </DockPanel>
+   </Grid>
+</UserControl>
